@@ -18,7 +18,8 @@ export default {
       status: 410, headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "no-store", "X-Robots-Tag": "noindex, nofollow" }
     });
     if (!["GET", "HEAD"].includes(request.method)) return new Response("Method not allowed", { status: 405, headers: { Allow: "GET, HEAD" } });
-    if (url.pathname === "/") url.pathname = "/index.html";
+    if (["/", "/index.html"].includes(url.pathname)) return new Response("Not found", { status: 404 });
+    if (["/infamous2-ios", "/infamous2-ios/"].includes(url.pathname)) url.pathname = "/infamous2-ios/index.html";
     if (["/privacy", "/privacy-policy"].includes(url.pathname)) url.pathname += ".html";
     const response = await env.ASSETS.fetch(new Request(url, request));
     const headers = new Headers(response.headers);

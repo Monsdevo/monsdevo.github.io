@@ -14,7 +14,7 @@ const report = [];
 try {
   for (const width of [320, 390, 700, 768, 1024, 1280, 1440, 1600]) {
     await page.setViewportSize({ width, height: 900 });
-    await page.goto(`${base}/`, { waitUntil: 'networkidle' });
+    await page.goto(`${base}/infamous2-ios/`, { waitUntil: 'networkidle' });
     await page.evaluate(() => document.fonts.ready);
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `Overflow at ${width}px`);
     assert.equal(await page.locator('h1').count(), 1);
@@ -31,11 +31,11 @@ try {
     report.push({ width, overflow: false, captures: 4 });
   }
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto(`${base}/`, { waitUntil: 'networkidle' });
+  await page.goto(`${base}/infamous2-ios/`, { waitUntil: 'networkidle' });
   assert.match(await page.title(), /inFAMOUS 2 iOS Port/);
   assert.match(await page.locator('#performance').innerText(), /6 FPS/);
   assert.match(await page.locator('#repository').innerText(), /closed source/);
-  assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'), 'https://monsdevo.github.io/');
+  assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'), 'https://monsdevo.github.io/infamous2-ios/');
   assert.equal(await page.locator('.contents').getAttribute('open'), null);
   await page.locator('.contents summary').click();
   assert.equal(await page.locator('.contents').getAttribute('open'), '');
@@ -62,13 +62,13 @@ try {
   await page.getByRole('link', { name: 'Project overview', exact: true }).click();
   assert.equal(new URL(page.url()).hash, '#project');
   const noScript = await browser.newPage({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
-  await noScript.goto(`${base}/`, { waitUntil: 'networkidle' });
+  await noScript.goto(`${base}/infamous2-ios/`, { waitUntil: 'networkidle' });
   const originalLink = noScript.locator('[data-capture]').first();
   assert.equal(await originalLink.isVisible(), true);
   await originalLink.click();
-  assert.equal(new URL(noScript.url()).pathname, '/assets/infamous2-ios/ios-opening-pier.png');
+  assert.equal(new URL(noScript.url()).pathname, '/infamous2-ios/assets/infamous2-ios/ios-opening-pier.png');
   assert.deepEqual(errors, []);
   await mkdir('.impeccable/infamous2', { recursive: true });
   await writeFile('.impeccable/infamous2/browser-report.json', JSON.stringify({ responsive: report, galleryKeyboard: 'pass', focusRestoration: 'pass', reducedMotion: 'pass', noJavaScript: 'pass', consoleAndAssets: errors }, null, 2));
-  console.log('PASS: 8 widths, root route, full-resolution gallery, keyboard navigation, focus restoration, reduced motion, no-JavaScript fallback.');
+  console.log('PASS: 8 widths, project route, full-resolution gallery, keyboard navigation, focus restoration, reduced motion, no-JavaScript fallback.');
 } finally { await browser.close(); }

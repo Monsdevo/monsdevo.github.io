@@ -84,7 +84,7 @@ components:
 
 A compact, complete project document carries the native-port explanation, verified capabilities, experiments, measurements and limitations. Soot and muted green-gray evoke gloomy New Marais streets; restrained blue/red electrical lines keep the game's identity present around calm reading text. The user selected this illustrated technical dossier after rejecting the cinematic marketing presentation.
 
-This system governs the standalone site at `https://monsdevo.github.io/`, its stylesheet and enhancement script, and the corresponding content/template sources. The shared Mons Games mark and TASA Orbiter reading face connect it to the site. The Read-mode surface contract lives in [the surface brief](.impeccable/surfaces/infamous2-ios-index-html.md).
+This system governs the standalone site at `https://monsdevo.github.io/infamous2-ios/`, its stylesheet and enhancement script, and the corresponding content/template sources. The shared Mons Games mark and TASA Orbiter reading face connect it to the site. The Read-mode surface contract lives in [the surface brief](.impeccable/surfaces/infamous2-ios-index-html.md).
 
 **Key Characteristics:**
 

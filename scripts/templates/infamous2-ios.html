@@ -6,24 +6,24 @@
   <meta name="theme-color" content="#141817">
   <title>inFAMOUS 2 iOS Port — Technical Overview | Mons Games</title>
   <meta name="description" content="Technical documentation of the unofficial inFAMOUS 2 iOS port: ARM64 static recompilation, iOS runtime integration, Metal lighting and SSAO, profiling, current performance and development status.">
-  <link rel="canonical" href="https://monsdevo.github.io/">
+  <link rel="canonical" href="https://monsdevo.github.io/infamous2-ios/">
   <meta property="og:type" content="article">
   <meta property="og:title" content="inFAMOUS 2 — Native iOS Port">
   <meta property="og:description" content="A detailed account of the iPhone 15 Pro prototype: native execution, Metal rendering, measured experiments, limitations and next steps.">
-  <meta property="og:url" content="https://monsdevo.github.io/">
-  <meta property="og:image" content="https://monsdevo.github.io/assets/infamous2-ios/ios-opening-pier.webp">
+  <meta property="og:url" content="https://monsdevo.github.io/infamous2-ios/">
+  <meta property="og:image" content="https://monsdevo.github.io/infamous2-ios/assets/infamous2-ios/ios-opening-pier.webp">
   <meta property="og:image:width" content="1600">
   <meta property="og:image:height" content="900">
   <meta property="og:image:alt" content="The opening waterfront scene in the experimental iOS port">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="inFAMOUS 2 — Native iOS Port">
   <meta name="twitter:description" content="ARM64 static recompilation, Metal rendering and the development of an unofficial early iOS prototype. Recent controlled gameplay tests: around 6 FPS.">
-  <meta name="twitter:image" content="https://monsdevo.github.io/assets/infamous2-ios/ios-opening-pier.webp">
+  <meta name="twitter:image" content="https://monsdevo.github.io/infamous2-ios/assets/infamous2-ios/ios-opening-pier.webp">
   <meta name="twitter:image:alt" content="The opening waterfront scene in the experimental iOS port">
-  <link rel="icon" href="/assets/mons-games-mark.png">
-  <link rel="preload" href="/assets/fonts/tasa-orbiter-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/style.css?v=3">
-  <script src="/page.js?v=2" defer></script>
+  <link rel="icon" href="/infamous2-ios/assets/mons-games-mark.png">
+  <link rel="preload" href="/infamous2-ios/assets/fonts/tasa-orbiter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/infamous2-ios/style.css?v=3">
+  <script src="/infamous2-ios/page.js?v=2" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to technical overview</a>
@@ -36,7 +36,7 @@
     <div class="document-header">
       <div class="document-header-inner">
         <div class="project-identity">
-          <h1 class="game-title"><img class="game-logo" src="/assets/infamous2-ios/infamous2-logo.png" width="900" height="240" alt="inFAMOUS 2" fetchpriority="high"><span class="edition-title">Native iOS port</span></h1>
+          <h1 class="game-title"><img class="game-logo" src="/infamous2-ios/assets/infamous2-ios/infamous2-logo.png" width="900" height="240" alt="inFAMOUS 2" fetchpriority="high"><span class="edition-title">Native iOS port</span></h1>
           <p class="document-summary">An independent porting project adapting the original game's code and existing PS3 static-recompilation work to a standalone iPhone application.</p>
           <p class="project-status">Early development prototype · <strong>iPhone 15 Pro</strong> · Recent gameplay tests around <strong>6 FPS</strong></p>
         </div>
@@ -129,6 +129,6 @@
 
   <footer class="site-footer"><p>A project by <a href="https://github.com/Monsdevo">Monsdevo</a> · <a href="https://monsgames.net/">Mons Games</a></p><nav aria-label="Footer navigation"><a href="#top">Back to top <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20V4m-6 6 6-6 6 6"/></svg></a></nav></footer>
 
-  <dialog class="lightbox" aria-labelledby="lightbox-title"><div class="lightbox-toolbar"><p id="lightbox-title">Full-resolution screenshot</p><button class="lightbox-close icon-button" type="button" aria-label="Close full-size capture"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6"/></svg></button></div><div class="lightbox-image-wrap"><img class="lightbox-image" alt="" width="2556" height="1179"><p class="lightbox-status" role="status" aria-live="polite"></p></div><div class="lightbox-bottom"><button class="lightbox-previous icon-button" type="button" aria-label="Previous capture"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H4m6-6-6 6 6-6"/></svg></button><p class="lightbox-count" aria-live="polite"></p><a class="lightbox-original" href="/assets/infamous2-ios/ios-opening-pier.png" target="_blank" rel="noopener">Open original <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a><button class="lightbox-next icon-button" type="button" aria-label="Next capture"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></button></div></dialog>
+  <dialog class="lightbox" aria-labelledby="lightbox-title"><div class="lightbox-toolbar"><p id="lightbox-title">Full-resolution screenshot</p><button class="lightbox-close icon-button" type="button" aria-label="Close full-size capture"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6"/></svg></button></div><div class="lightbox-image-wrap"><img class="lightbox-image" alt="" width="2556" height="1179"><p class="lightbox-status" role="status" aria-live="polite"></p></div><div class="lightbox-bottom"><button class="lightbox-previous icon-button" type="button" aria-label="Previous capture"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H4m6-6-6 6 6-6"/></svg></button><p class="lightbox-count" aria-live="polite"></p><a class="lightbox-original" href="/infamous2-ios/assets/infamous2-ios/ios-opening-pier.png" target="_blank" rel="noopener">Open original <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a><button class="lightbox-next icon-button" type="button" aria-label="Next capture"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></button></div></dialog>
 </body>
 </html>

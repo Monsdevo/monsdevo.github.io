@@ -1,12 +1,12 @@
 # Maintaining the inFAMOUS 2 iOS technical dossier
 
-The standalone page lives at https://monsdevo.github.io/. GitHub Pages serves the committed root `index.html`; the local build uses the same generated file.
+The standalone page lives at https://monsdevo.github.io/infamous2-ios/. GitHub Pages serves the committed `infamous2-ios/index.html`; the local build uses the same generated file.
 
 ## Content
 
-Edit `scripts/infamous2-content.mjs`, then run `npm run build` and commit the generated `index.html` along with the source changes. The `captures` array assigns images to technical sections; `updates` controls the development log, newest first. Updates may include an optional verified ISO `date` (`YYYY-MM-DD`). Omit dates if unknown. No client-side request to GitHub is required.
+Edit `scripts/infamous2-content.mjs`, then run `npm run build` and commit the generated `infamous2-ios/index.html` along with the source changes. The `captures` array assigns images to technical sections; `updates` controls the development log, newest first. Updates may include an optional verified ISO `date` (`YYYY-MM-DD`). Omit dates if unknown. No client-side request to GitHub is required.
 
-For other copy or structural changes, edit `scripts/templates/infamous2-ios.html`, then build. Do not edit the generated index directly. Page-specific CSS and progressive enhancement are in `style.css` and `page.js`.
+For other copy or structural changes, edit `scripts/templates/infamous2-ios.html`, then build. Do not edit the generated index directly. Page-specific CSS and progressive enhancement are in `infamous2-ios/style.css` and `infamous2-ios/page.js`.
 
 ## Screenshots
 
