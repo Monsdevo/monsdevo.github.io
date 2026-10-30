@@ -1,0 +1,11 @@
+url: "https://monsdevo.github.io"
+exclude:
+  - DESIGN.md
+  - README.md
+  - package.json
+  - scripts
+  - tests
+  - dist
+  - node_modules
+  - .impeccable
+  - assets/infamous2-ios/*.json

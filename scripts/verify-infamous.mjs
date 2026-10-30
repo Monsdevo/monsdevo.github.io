@@ -1,0 +1,74 @@
+import { createRequire } from 'node:module';
+import { mkdir, writeFile } from 'node:fs/promises';
+import assert from 'node:assert/strict';
+const require = createRequire(import.meta.url);
+const { chromium } = require('playwright');
+const base = process.env.SITE_URL || 'http://127.0.0.1:4174';
+const browser = await chromium.launch({ headless: true,  });
+const page = await browser.newPage({ reducedMotion: 'reduce' });
+const errors = [];
+page.on('pageerror', error => errors.push(error.message));
+page.on('response', response => { if (response.status() >= 400) errors.push(`${response.status()} ${response.url()}`); });
+const report = [];
+
+try {
+  for (const width of [320, 390, 700, 768, 1024, 1280, 1440, 1600]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto(`${base}/`, { waitUntil: 'networkidle' });
+    await page.evaluate(() => document.fonts.ready);
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `Overflow at ${width}px`);
+    assert.equal(await page.locator('h1').count(), 1);
+    assert.equal(await page.locator('video, iframe, audio').count(), 0);
+    assert.equal(await page.locator('[data-capture]').count(), 4);
+    assert.equal(await page.locator('.comparison-table').evaluate(table => table.scrollWidth <= table.parentElement.clientWidth + 1), true, `Comparison table clips at ${width}px`);
+    if (width > 720) assert.equal(await page.locator('.capture img').evaluateAll(images => images.every(image => image.getBoundingClientRect().width <= 340)), true, `Oversized screenshot at ${width}px`);
+    assert.equal(await page.locator('.game-title').evaluate(element => {
+      const box = element.getBoundingClientRect();
+      return box.left >= 0 && box.right <= innerWidth;
+    }), true, `Game title overflows at ${width}px`);
+    const missingTargets = await page.locator('a[href^="#"]').evaluateAll(links => links.filter(link => !document.getElementById(link.hash.slice(1))).map(link => link.hash));
+    assert.deepEqual(missingTargets, []);
+    report.push({ width, overflow: false, captures: 4 });
+  }
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(`${base}/`, { waitUntil: 'networkidle' });
+  assert.match(await page.title(), /inFAMOUS 2 iOS Port/);
+  assert.match(await page.locator('#performance').innerText(), /6 FPS/);
+  assert.match(await page.locator('#repository').innerText(), /closed source/);
+  assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'), 'https://monsdevo.github.io/');
+  assert.equal(await page.locator('.contents').getAttribute('open'), null);
+  await page.locator('.contents summary').click();
+  assert.equal(await page.locator('.contents').getAttribute('open'), '');
+  const capture = page.locator('[data-capture]').first();
+  await capture.focus();
+  await page.keyboard.press('Enter');
+  assert.equal(await page.locator('dialog').evaluate(element => element.open), true);
+  await page.waitForFunction(() => { const image = document.querySelector('.lightbox-image'); return image.complete && image.naturalWidth === 2556; });
+  assert.equal(await page.locator('.lightbox-close').evaluate(element => element === document.activeElement), true);
+  await page.keyboard.press('ArrowRight');
+  assert.equal(await page.locator('.lightbox-count').innerText(), '2 / 4');
+  await page.keyboard.press('ArrowLeft');
+  assert.equal(await page.locator('.lightbox-count').innerText(), '1 / 4');
+  await page.keyboard.press('ArrowLeft');
+  assert.equal(await page.locator('.lightbox-count').innerText(), '4 / 4');
+  await page.getByRole('button', { name: 'Next capture' }).click();
+  assert.equal(await page.locator('.lightbox-count').innerText(), '1 / 4');
+  await page.keyboard.press('Escape');
+  assert.equal(await page.locator('dialog').evaluate(element => element.open), false);
+  assert.equal(await capture.evaluate(element => element === document.activeElement), true);
+  assert.equal(await page.locator('body').evaluate(element => element.classList.contains('lightbox-open')), false);
+  assert.equal(await page.locator('.capture figcaption, .capture-label, .capture-index, .hero-caption').count(), 0);
+  assert.equal(await page.locator('.capture img').first().evaluate(element => getComputedStyle(element).animationName), 'none');
+  await page.getByRole('link', { name: 'Project overview', exact: true }).click();
+  assert.equal(new URL(page.url()).hash, '#project');
+  const noScript = await browser.newPage({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
+  await noScript.goto(`${base}/`, { waitUntil: 'networkidle' });
+  const originalLink = noScript.locator('[data-capture]').first();
+  assert.equal(await originalLink.isVisible(), true);
+  await originalLink.click();
+  assert.equal(new URL(noScript.url()).pathname, '/assets/infamous2-ios/ios-opening-pier.png');
+  assert.deepEqual(errors, []);
+  await mkdir('.impeccable/infamous2', { recursive: true });
+  await writeFile('.impeccable/infamous2/browser-report.json', JSON.stringify({ responsive: report, galleryKeyboard: 'pass', focusRestoration: 'pass', reducedMotion: 'pass', noJavaScript: 'pass', consoleAndAssets: errors }, null, 2));
+  console.log('PASS: 8 widths, root route, full-resolution gallery, keyboard navigation, focus restoration, reduced motion, no-JavaScript fallback.');
+} finally { await browser.close(); }
